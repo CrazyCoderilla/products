@@ -13,11 +13,19 @@ class ProductTest {
     }
 
     @Test
-    public void matchesTest() {
+    public void trueMatchesTest() {
         Product product = new Product();
         String name = "123";
         product.setName(name);
         assertTrue(product.matches(name));
+    }
+
+    @Test
+    public void falseMatchesTest() {
+        Product product = new Product();
+        String name = "123";
+        product.setName(name);
         assertFalse(product.matches("5"));
     }
+
 }
