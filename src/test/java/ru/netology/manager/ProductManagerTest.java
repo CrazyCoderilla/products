@@ -7,6 +7,7 @@ import ru.netology.domain.Product;
 import ru.netology.domain.Smartphone;
 import ru.netology.repository.ProductRepository;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ProductManagerTest {
@@ -24,7 +25,7 @@ public class ProductManagerTest {
     public void setUp() {
         pm = new ProductManager(new ProductRepository());
         b1 = new Book(1, book_name, 1, book_author, 1, 1);
-        b2 = new Book(1, book_name, 1, book_author, 1, 1);
+        b2 = new Book(2, book_name, 1, book_author, 1, 1);
         sm = new Smartphone();
         pm.add(b1);
         pm.add(b2);
@@ -38,6 +39,18 @@ public class ProductManagerTest {
         assertEquals(2, pm.searchBy(book_name).length);
         assertEquals(book_author, ((Book) pm.searchBy(book_author)[1]).getAuthor());
         assertEquals(0, pm.searchBy("11").length);
+
+        Product[] expected = {b1, b2};
+        Product[] actual = pm.searchBy(book_name);
+        assertArrayEquals(expected, actual);
+
+        expected = new Product[]{};
+        actual = pm.searchBy("123123123");
+        assertArrayEquals(expected, actual);
+
+        expected = new Product[]{b1, b2};
+        actual = pm.searchBy(book_name);
+        assertArrayEquals(expected, actual);
     }
 
     @Test
@@ -46,9 +59,16 @@ public class ProductManagerTest {
         assertEquals(smartphone_manu, ((Smartphone) pm.searchBy(smartphone_manu)[0]).getManufacturer());
 
         Product[] expected = {sm};
-//        assertEquals(expected, pm.searchBy(smartphone_manu));
+        Product[] actual = pm.searchBy(smartphone_manu);
+        assertArrayEquals(expected, actual);
         assertEquals(expected[0].getName(), pm.searchBy(smartphone_manu)[0].getName());
 
+        actual = pm.searchBy(smartphone_model);
+        assertArrayEquals(expected, actual);
+
+        expected = new Product[]{};
+        actual = pm.searchBy("80981283");
+        assertArrayEquals(expected, actual);
     }
 
 }

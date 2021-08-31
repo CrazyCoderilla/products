@@ -3,6 +3,8 @@ package ru.netology.manager;
 import ru.netology.domain.Product;
 import ru.netology.repository.ProductRepository;
 
+import java.util.Arrays;
+
 public class ProductManager {
     private ProductRepository repository;
 
@@ -19,7 +21,7 @@ public class ProductManager {
         for (Product product : repository.findAll()) {
             if (product.matches(text)) {
                 Product[] tmp = new Product[result.length + 1];
-                // используйте System.arraycopy, чтобы скопировать всё из result в tmp
+                Arrays.stream(result).forEach(value -> tmp[0] = value);
                 tmp[tmp.length - 1] = product;
                 result = tmp;
             }
