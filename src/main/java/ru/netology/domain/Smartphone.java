@@ -5,6 +5,11 @@ import java.util.Objects;
 public class Smartphone extends Product {
     private String manufacturer;
 
+    public Smartphone(int id, String name, String manufacturer, int price) {
+        super(id, name, price);
+        this.manufacturer = manufacturer;
+    }
+
     public String getManufacturer() {
         return manufacturer;
     }

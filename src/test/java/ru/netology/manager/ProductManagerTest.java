@@ -18,56 +18,59 @@ public class ProductManagerTest {
     private final static String smartphone_manu = "sam";
     private Book b1;
     private Book b2;
-    private Smartphone sm = new Smartphone();
+    private Smartphone sm;
 
 
     @BeforeEach
     public void setUp() {
         pm = new ProductManager(new ProductRepository());
         b1 = new Book(1, book_name, 1, book_author, 1, 1);
-        b2 = new Book(2, book_name, 1, book_author, 1, 1);
-        sm = new Smartphone();
+        b2 = new Book(2, book_name, 1, "author", 1, 1);
+        sm = new Smartphone(1, smartphone_model, smartphone_manu,10);
         pm.add(b1);
         pm.add(b2);
-        sm.setManufacturer(smartphone_manu);
-        sm.setName(smartphone_model);
         pm.add(sm);
     }
 
     @Test
-    public void searchBookTest() {
-        assertEquals(2, pm.searchBy(book_name).length);
-        assertEquals(book_author, ((Book) pm.searchBy(book_author)[1]).getAuthor());
-        assertEquals(0, pm.searchBy("11").length);
-
+    public void searchBookByNameTest() {
         Product[] expected = {b1, b2};
         Product[] actual = pm.searchBy(book_name);
-        assertArrayEquals(expected, actual);
-
-        expected = new Product[]{};
-        actual = pm.searchBy("123123123");
-        assertArrayEquals(expected, actual);
-
-        expected = new Product[]{b1, b2};
-        actual = pm.searchBy(book_name);
         assertArrayEquals(expected, actual);
     }
 
     @Test
-    public void searchSmartTest() {
-        assertEquals(smartphone_model, pm.searchBy(smartphone_model)[0].getName());
-        assertEquals(smartphone_manu, ((Smartphone) pm.searchBy(smartphone_manu)[0]).getManufacturer());
+    void searchBookByAuthorTest() {
+        Product[] expected = {b1};
+        Product[] actual = pm.searchBy(book_author);
+        assertArrayEquals(expected, actual);
+    }
 
+    @Test
+    void searchBookTestEmptyResult() {
+        Product[] expected = new Product[]{};
+        Product[] actual = pm.searchBy("123123123");
+        assertArrayEquals(expected, actual);
+    }
+
+    @Test
+    public void searchSmartByManufacturerTest() {
         Product[] expected = {sm};
         Product[] actual = pm.searchBy(smartphone_manu);
         assertArrayEquals(expected, actual);
-        assertEquals(expected[0].getName(), pm.searchBy(smartphone_manu)[0].getName());
+    }
 
-        actual = pm.searchBy(smartphone_model);
+    @Test
+    public void searchSmartByModelTest() {
+        Product[] expected = {sm};
+        Product[] actual = pm.searchBy(smartphone_model);
         assertArrayEquals(expected, actual);
+    }
 
-        expected = new Product[]{};
-        actual = pm.searchBy("80981283");
+    @Test
+    public void searchSmartEmptyResultTest() {
+        Product[] expected = new Product[]{};
+        Product[] actual = pm.searchBy("80981283");
         assertArrayEquals(expected, actual);
     }
 

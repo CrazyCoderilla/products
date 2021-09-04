@@ -9,17 +9,15 @@ public class SmartphoneTest {
 
     @Test
     public void trueMatchesTest() {
-        Smartphone smartphone = new Smartphone();
         String manu = "123";
-        smartphone.setManufacturer(manu);
+        Smartphone smartphone = new Smartphone(1, "smartphone_model", manu, 10);
         assertTrue(smartphone.matches(manu));
     }
 
     @Test
     public void falseMatchesTest() {
-        Smartphone smartphone = new Smartphone();
         String manu = "123";
-        smartphone.setManufacturer(manu);
+        Smartphone smartphone = new Smartphone(1, "smartphone_model", manu, 10);
         assertFalse(smartphone.matches("5"));
     }
 }
